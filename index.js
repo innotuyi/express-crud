@@ -1,9 +1,18 @@
 const Joi = require("joi");
+const morgan = require('morgan')
+const helmet = require('helmet')
+const logger =require('./logger.js')
+const authicate = require('./authentication')
 const express = require("express");
 const app = express();
 
 app.use(express.json());
-
+app.use(helmet());
+app.use(morgan('tiny'));
+app.use(express.static('public'))
+app.use(express.urlencoded ({extendend:true}));
+app.use(logger);
+app.use(authicate)
 const genres = [
   { id: 1, name: "Action" },
   { id: 2, name: "Horror" },
